@@ -23,7 +23,7 @@ public class UserRepository {
     }
 
     public User get(int id){
-        final String sql = "SELECT * FROM user WHERE id="+id;
+        final String sql = "SELECT * FROM users WHERE id="+id;
         try{
             return jdbcTemplate.queryForObject(sql,userRowMapper);
         }catch (EmptyResultDataAccessException e){
@@ -32,12 +32,12 @@ public class UserRepository {
     }
 
     public List<User> getAll(){
-        final String sql = "SELECT * FROM user";
+        final String sql = "SELECT * FROM users";
         return jdbcTemplate.query(sql,userRowMapper);
     }
 
     public Integer add(User user){
-        final String sql = "INSER INTO user (name,surname,address,email,phone_number,password,created_at) VALUES (?,?,?,?,?,?,?)";
+        final String sql = "INSERT INTO users (name,surname,address,email,phone_number,password,created_at) VALUES (?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override

@@ -165,4 +165,21 @@ public class User {
         return Objects.hash(id, name, surname, address, email, phoneNumber, password, borrowedBooksNumber, basketId,
                 accountApprovedBy, createdAt);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", borrowedBooksNumber=" + borrowedBooksNumber +
+                ", basketId=" + basketId +
+                ", accountApprovedBy=" + accountApprovedBy +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }
