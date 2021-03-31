@@ -37,7 +37,7 @@ public class UserRepository {
     }
 
     public Integer add(User user){
-        final String sql = "INSERT INTO users (name,surname,address,email,phone_number,password,created_at) VALUES (?,?,?,?,?,?,?)";
+        final String sql = "INSERT INTO users (name,surname,address,email,phone_number,password,borrowed_books_number,basket_id,account_approved_by,created_at) VALUES (?,?,?,?,?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
@@ -49,10 +49,14 @@ public class UserRepository {
                 ps.setString(4, user.getEmail());
                 ps.setString(5, user.getPhoneNumber());
                 ps.setString(6, user.getPassword());
+                ps.setInt(7,user.getBorrowedBooksNumber());
+                ps.setInt(8,user.getBasketId());
+                ps.setInt(9,user.getAccountApprovedBy());
+
                 if(user.getCreatedAt() == null){
                     user.setCreatedAt(Timestamp.from(Instant.now()));
                 }
-                ps.setTimestamp(7,user.getCreatedAt());
+                ps.setTimestamp(10,user.getCreatedAt());
 
                 return ps;
             }

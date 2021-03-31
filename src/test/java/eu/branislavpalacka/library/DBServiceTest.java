@@ -16,7 +16,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class DBServiceTest {
 
     @Autowired
@@ -27,7 +27,10 @@ public class DBServiceTest {
 
     @Test
     public void user(){
-        User user = new User("Fero","Mrkvicka", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14",0,0,0);
+        Employee employee = new Employee("Peeetr","Jablko", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14");
+        Integer idE = employeeService.add(employee);
+
+        User user = new User("Fero","Mrkvicka", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14",0,0,idE);
         Integer id = userService.add(user);
 
         assert id != null;
