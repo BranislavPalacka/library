@@ -1,6 +1,7 @@
 package eu.branislavpalacka.library;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,6 +59,37 @@ public class RestControllerTest {
         List<User> userList = objectMapper.readValue(userListJson, new TypeReference<List<User>>() {});
         assert userList.size() == 1;
         Assert.assertEquals(user,userList.get(0));
+
+    }
+
+    @Test
+    public void employee() throws Exception{
+        Employee employee = new Employee("Peetr","Jablko", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14");
+
+        // add employee
+        String id = mockMvc.perform(post("/employee")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(employee)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        employee.setId(objectMapper.readValue(id,Integer.class));
+
+
+        // get employee
+        String employeeJson = mockMvc.perform(get("/employee/"+employee.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        Employee userReturned = objectMapper.readValue(employeeJson,Employee.class);
+
+        // get all employees
+        String employeeListJson = mockMvc.perform(get("/employee")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        List<Employee> employeeList = objectMapper.readValue(employeeListJson, new TypeReference<List<Employee>>() {});
+        assert employeeList.size() == 1;
+        Assert.assertEquals(employee,employeeList.get(0));
 
     }
 
