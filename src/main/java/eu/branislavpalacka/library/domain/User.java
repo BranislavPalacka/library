@@ -34,10 +34,9 @@ public class User {
     public User() {
     }
 
-    public User(@NonNull Integer id, @NonNull String name, @NonNull String surname, @NonNull String address,
+    public User(@NonNull String name, @NonNull String surname, @NonNull String address,
                 @NonNull String email, @NonNull String phoneNumber, @NonNull String password,
                 @Nullable Integer borrowedBooksNumber, @Nullable Integer basketId, @Nullable Integer accountApprovedBy) {
-        this.id = id;
         this.name = name;
         this.surname = surname;
         this.address = address;
