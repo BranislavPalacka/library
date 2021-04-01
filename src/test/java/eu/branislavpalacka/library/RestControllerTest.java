@@ -1,6 +1,8 @@
 package eu.branislavpalacka.library;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.User;
@@ -128,6 +130,38 @@ public class RestControllerTest {
 
         Assert.assertEquals(1,bookList.size());
         Assert.assertEquals(book,bookList.get(0));
+    }
+
+    @Test
+    public void author() throws Exception{
+        Author author = new Author("Jaroslav","Hasek","fakt nevim","images/hasek.gif",1);
+
+        // add author
+        String id = mockMvc.perform(post("/author")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(author)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        author.setId(objectMapper.readValue(id,Integer.class));
+
+        // get author
+        String authorJson = mockMvc.perform(get("/author/"+author.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        Author authorReturned = objectMapper.readValue(authorJson,Author.class);
+
+        Assert.assertEquals(author,authorReturned);
+
+        // get all authors
+        String authorListJson = mockMvc.perform(get("/author")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        List<Author> authorList = objectMapper.readValue(authorListJson, new TypeReference<List<Author>>() {});
+
+        Assert.assertEquals(1,authorList.size());
+        Assert.assertEquals(author,authorList.get(0));
     }
 
 }

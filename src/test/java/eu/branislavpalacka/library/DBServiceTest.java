@@ -1,8 +1,10 @@
 package eu.branislavpalacka.library;
 
+import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.User;
+import eu.branislavpalacka.library.services.api.AuthorService;
 import eu.branislavpalacka.library.services.api.BookService;
 import eu.branislavpalacka.library.services.api.EmployeeService;
 import eu.branislavpalacka.library.services.api.UserService;
@@ -29,6 +31,9 @@ public class DBServiceTest {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private AuthorService authorService;
 
     @Test
     public void user(){
@@ -80,6 +85,22 @@ public class DBServiceTest {
         List<Book> books = bookService.getBooks();
         Assert.assertEquals(1,books.size());
         Assert.assertEquals(book,books.get(0));
+    }
+
+    @Test
+    public void author(){
+        Author author = new Author("Jaroslav","Hasek","fakt nevim","images/hasek.gif",1);
+
+        Integer id = authorService.add(author);
+        assert id != null;
+        author.setId(id);
+
+        Author authorFromDB = authorService.get(id);
+        Assert.assertEquals(author,authorFromDB);
+
+        List<Author> authors = authorService.getAuthors();
+        assert authors.size() == 1;
+        Assert.assertEquals(author,authors.get(0));
     }
 
 }
