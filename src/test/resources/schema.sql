@@ -35,3 +35,14 @@ CREATE TABLE books (
   created_at datetime NOT NULL,
   basket_id int(11) DEFAULT NULL
 );
+
+DROP TABLE IF EXISTS authors;
+CREATE TABLE authors (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  name varchar(45) NOT NULL,
+  surname varchar(45) NOT NULL,
+  description text DEFAULT NULL,
+  image varchar(45) DEFAULT NULL,
+  created_at datetime NOT NULL,
+  add_by int(5) NOT NULL
+);

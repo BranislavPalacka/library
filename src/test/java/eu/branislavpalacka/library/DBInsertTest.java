@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library;
 
+import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.User;
@@ -26,6 +27,7 @@ public class DBInsertTest {
     private final String insertUser = "INSERT INTO users (name,surname,address,email,phone_number,password,created_at) VALUES (?,?,?,?,?,?,?)";
     private final String insertEmployee = "INSERT INTO employees (name,surname,address,email,phone_number,password) VALUES (?,?,?,?,?,?)";
     private final String insertBook = "INSERT INTO books (name,description,image,status_id,add_by,created_at,basket_id) VALUES (?,?,?,?,?,?,?)";
+    private final String insertAuthor = "INSERT INTO authors(name,surname,description,image,created_at,add_by) VALUES (?,?,?,?,?,?)";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -110,4 +112,30 @@ public class DBInsertTest {
             }
         });
     }
+
+    @Test
+    public void createAuthor(){
+        Author author = new Author();
+        author.setName("Jaromir");
+        author.setSurname("Hasek");
+        author.setDescription("nevim co napsat");
+        author.setImage("images/hasek.jpg");
+        author.setCreatedAt(Timestamp.from(Instant.now()));
+        author.setAddBy(1);
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(insertAuthor);
+                ps.setString(1,author.getName());
+                ps.setString(2,author.getSurname());
+                ps.setString(3,author.getDescription());
+                ps.setString(4,author.getImage());
+                ps.setTimestamp(5,author.getCreatedAt());
+                ps.setInt(6,author.getAddBy());
+                return ps;
+            }
+        });
+    }
+
 }

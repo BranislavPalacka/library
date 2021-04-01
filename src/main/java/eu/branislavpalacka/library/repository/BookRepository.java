@@ -13,6 +13,7 @@ import java.sql.*;
 import java.time.Instant;
 import java.util.List;
 
+//TODO dodělat metody pro úpravu knihy
 @Component
 public class BookRepository {
     private final JdbcTemplate jdbcTemplate;
