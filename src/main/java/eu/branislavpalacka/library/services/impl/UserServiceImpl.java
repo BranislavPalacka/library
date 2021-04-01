@@ -16,13 +16,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.getAll();
+    public User get(int id) {
+        return userRepository.get(id);
     }
 
     @Override
-    public User get(int id) {
-        return userRepository.get(id);
+    public List<User> getUsers() {
+        return userRepository.getAll();
     }
 
     @Override
