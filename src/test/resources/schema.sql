@@ -46,3 +46,16 @@ CREATE TABLE authors (
   created_at datetime NOT NULL,
   add_by int(5) NOT NULL
 );
+
+DROP TABLE IF EXISTS orders;
+CREATE TABLE orders (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11) NOT NULL,
+  order_state_id int(5) NOT NULL,
+  created_at datetime NOT NULL,
+  ready_at datetime DEFAULT NULL,
+  borrowed_at datetime DEFAULT NULL,
+  ended_at datetime DEFAULT NULL,
+  borrowed_by int(11) DEFAULT NULL,
+  ended_by int(5) DEFAULT NULL
+);
