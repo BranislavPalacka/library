@@ -2,6 +2,7 @@ package eu.branislavpalacka.library.controller;
 
 import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.services.api.AuthorService;
+import eu.branislavpalacka.library.services.api.request.UpdateAuthorRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,30 @@ public class AuthorController {
             return new ResponseEntity<>(id,HttpStatus.CREATED);
         }else {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping("{id}")
+    public ResponseEntity update(@PathVariable("id") int id, @RequestBody UpdateAuthorRequest updateAuthorRequest){
+        if (authorService.get(id) != null ){
+            authorService.update(id,updateAuthorRequest);
+            return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Author with id: "+id+" NOT FOUND.");
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity delete(@PathVariable ("id") int id){
+        if(authorService.get(id) != null){
+            authorService.delete(id);
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Author with id: "+id+" NOT FOUND.");
         }
     }
 }

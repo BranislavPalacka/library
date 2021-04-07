@@ -2,6 +2,7 @@ package eu.branislavpalacka.library.repository;
 
 import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.mappper.AuthorRowMapper;
+import eu.branislavpalacka.library.services.api.request.UpdateAuthorRequest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -61,5 +62,15 @@ public class AuthorRepository {
         }else{
             return null;
         }
+    }
+
+    public void update (int id, UpdateAuthorRequest updateAuthorRequest){
+        final String sql = "UPDATE authors SET name=?,surname=?,description=?,image=? WHERE id="+id;
+        jdbcTemplate.update(sql,updateAuthorRequest.getName(),updateAuthorRequest.getSurname(),updateAuthorRequest.getDescription(),updateAuthorRequest.getImage());
+    }
+
+    public void delete (int id){
+        final String sql = "DELETE FROM authors WHERE id="+id;
+        jdbcTemplate.update(sql);
     }
 }

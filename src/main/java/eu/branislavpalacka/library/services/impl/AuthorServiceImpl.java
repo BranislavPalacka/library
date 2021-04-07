@@ -4,6 +4,7 @@ import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.repository.AuthorRepository;
 import eu.branislavpalacka.library.repository.BookRepository;
 import eu.branislavpalacka.library.services.api.AuthorService;
+import eu.branislavpalacka.library.services.api.request.UpdateAuthorRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,16 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Integer add(Author author) {
         return authorRepository.add(author);
+    }
+
+    @Override
+    public void delete(int id) {
+        authorRepository.delete(id);
+    }
+
+    @Override
+    public void update(int id, UpdateAuthorRequest updateAuthorRequest) {
+        authorRepository.update(id, updateAuthorRequest);
     }
 }
 
