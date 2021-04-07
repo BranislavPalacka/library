@@ -2,6 +2,7 @@ package eu.branislavpalacka.library.repository;
 
 import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.mappper.BookRowMapper;
+import eu.branislavpalacka.library.services.api.request.UpdateBookRequest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -38,8 +39,8 @@ public class BookRepository {
     }
 
     public Integer add(Book book){
-        final String sql = "INSERT INTO books (name,description,image,status_id,add_by,created_at,basket_id)"+
-                            "VALUES (?,?,?,?,?,?,?)";
+        final String sql = "INSERT INTO books (name,description,image,status_id,add_by,created_at)"+
+                            "VALUES (?,?,?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
@@ -54,7 +55,6 @@ public class BookRepository {
                     book.setCreatedAt(Timestamp.from(Instant.now()));
                 }
                 ps.setTimestamp(6,book.getCreatedAt());
-                ps.setInt(7,book.getBasketID());
 
                 return ps;
             }
@@ -64,5 +64,15 @@ public class BookRepository {
         }else{
             return null;
         }
+    }
+
+    public void update(int id, UpdateBookRequest updateBookRequest){
+        final String sql = "UPDATE books SET name=?,description=?,image=?,status_id=?,basket_id=? WHERE id="+id;
+        jdbcTemplate.update(sql,updateBookRequest.getName(),updateBookRequest.getDescription(),updateBookRequest.getImage(),updateBookRequest.getStatusID(),updateBookRequest.getBasketId());
+    }
+
+    public void delete(int id){
+        final String sql = "DELETE FROM books WHERE id="+id;
+        jdbcTemplate.update(sql);
     }
 }
