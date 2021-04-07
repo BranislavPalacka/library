@@ -21,10 +21,10 @@ public class UpdateSerieRequest {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UpdateSerieRequest that = (UpdateSerieRequest) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        UpdateSerieRequest that = (UpdateSerieRequest) object;
         return name.equals(that.name);
     }
 
