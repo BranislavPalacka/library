@@ -18,4 +18,6 @@ public interface AuthorService {
     void delete(int id);
 
     void update(int id, UpdateAuthorRequest updateAuthorRequest);
+
+    boolean isUsed(int id);
 }

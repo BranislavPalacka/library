@@ -67,4 +67,13 @@ public class StatusOfBooksRepository {
         final String sql = "DELETE FROM status_of_books WHERE id="+id;
         jdbcTemplate.update(sql);
     }
+
+    public boolean isUsed(int id){
+        final String sql = "SELECT * FROM books WHERE status_id="+id;
+        List<StatusOfBooks> statusOfBooksList = jdbcTemplate.query(sql,statusOfBooksRowMapper);
+            if (statusOfBooksList.size() == 0){
+                return false;
+            }else return true;
+    }
+
 }

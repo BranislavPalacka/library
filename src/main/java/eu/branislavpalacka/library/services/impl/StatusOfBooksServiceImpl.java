@@ -40,4 +40,9 @@ public class StatusOfBooksServiceImpl implements StatusOfBookService {
     public void delete(int id) {
         statusOfBooksRepository.delete(id);
     }
+
+    @Override
+    public boolean isUsed(int id) {
+        return statusOfBooksRepository.isUsed(id);
+    }
 }

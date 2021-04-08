@@ -13,9 +13,11 @@ public interface StatusOfBookService {
     StatusOfBooks get(int id);
 
     @Nullable
-    Integer add (StatusOfBooks statusOfBooks);
+    Integer add(StatusOfBooks statusOfBooks);
 
     void update(int id, UpdateStatusOfBooksRequest updateStatusOfBooksRequest);
 
     void delete(int id);
+
+    boolean isUsed(int id);
 }

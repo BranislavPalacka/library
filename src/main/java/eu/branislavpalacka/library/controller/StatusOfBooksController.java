@@ -60,11 +60,21 @@ public class StatusOfBooksController {
 
     @DeleteMapping("{id}")
     public ResponseEntity delete (@PathVariable int id){
+
         if(statusOfBookService.get(id) != null){
-            statusOfBookService.delete(id);
-            return ResponseEntity
-                    .ok()
-                    .build();
+            StatusOfBooks statusOfBooks = statusOfBookService.get(id);
+
+            if (statusOfBookService.isUsed(id) == false) {
+                statusOfBookService.delete(id);
+                return ResponseEntity
+                        .ok()
+                        .build();
+            }else{
+                return ResponseEntity
+                        .status(HttpStatus.PRECONDITION_FAILED)
+                        .body("There are still books with status "+statusOfBooks.getName().toUpperCase()+".");
+            }
+
         }else{
             return ResponseEntity
                     .status(HttpStatus.PRECONDITION_FAILED)

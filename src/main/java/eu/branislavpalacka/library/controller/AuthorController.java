@@ -1,7 +1,9 @@
 package eu.branislavpalacka.library.controller;
 
 import eu.branislavpalacka.library.domain.Author;
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.services.api.AuthorService;
+import eu.branislavpalacka.library.services.api.BooksAuthorsService;
 import eu.branislavpalacka.library.services.api.request.UpdateAuthorRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +15,11 @@ import java.util.List;
 @RequestMapping("author")
 public class AuthorController {
     private final AuthorService authorService;
+    private final BooksAuthorsService booksAuthorsService;
 
-    public AuthorController(AuthorService authorService) {
+    public AuthorController(AuthorService authorService, BooksAuthorsService booksAuthorsService) {
         this.authorService = authorService;
+        this.booksAuthorsService = booksAuthorsService;
     }
 
     @GetMapping("{id}")
@@ -58,14 +62,32 @@ public class AuthorController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable ("id") int id){
+    public ResponseEntity delete (@PathVariable int id){
+
         if(authorService.get(id) != null){
-            authorService.delete(id);
-            return ResponseEntity.ok().build();
+            Author author = authorService.get(id);
+
+            if (authorService.isUsed(id) == false) {
+                authorService.delete(id);
+                return ResponseEntity
+                        .ok()
+                        .build();
+            }else{
+                return ResponseEntity
+                        .status(HttpStatus.PRECONDITION_FAILED)
+                        .body("There are still books with author "+author.getName().toUpperCase()+" "+author.getSurname().toUpperCase()+".");
+            }
+
         }else{
             return ResponseEntity
                     .status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Author with id: "+id+" NOT FOUND.");
+                    .body("Author with id= "+id+" NOT FOUND");
         }
+    }
+
+    @GetMapping("/books/{id}")
+    public ResponseEntity getBooksFromAuthor(@PathVariable ("id") int author_id){
+        List<Book> books = booksAuthorsService.getBooksFromAuthor(author_id);
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }

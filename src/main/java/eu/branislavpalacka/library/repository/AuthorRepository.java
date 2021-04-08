@@ -1,7 +1,10 @@
 package eu.branislavpalacka.library.repository;
 
 import eu.branislavpalacka.library.domain.Author;
+import eu.branislavpalacka.library.domain.BooksAuthors;
+import eu.branislavpalacka.library.domain.StatusOfBooks;
 import eu.branislavpalacka.library.mappper.AuthorRowMapper;
+import eu.branislavpalacka.library.mappper.BooksAuthorsRowMapper;
 import eu.branislavpalacka.library.services.api.request.UpdateAuthorRequest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +21,7 @@ import java.util.List;
 public class AuthorRepository {
     private final JdbcTemplate jdbcTemplate;
     private final AuthorRowMapper authorRowMapper = new AuthorRowMapper();
+    private final BooksAuthorsRowMapper booksAuthorsRowMapper = new BooksAuthorsRowMapper();
 
     public AuthorRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -72,5 +76,13 @@ public class AuthorRepository {
     public void delete (int id){
         final String sql = "DELETE FROM authors WHERE id="+id;
         jdbcTemplate.update(sql);
+    }
+
+    public boolean isUsed(int id){
+        final String sql = "SELECT * FROM books_authors WHERE author_id="+id;
+        List<BooksAuthors> booksAuthorsList = jdbcTemplate.query(sql,booksAuthorsRowMapper);
+        if (booksAuthorsList.size() == 0){
+            return false;
+        }else return true;
     }
 }

@@ -42,5 +42,10 @@ public class AuthorServiceImpl implements AuthorService {
     public void update(int id, UpdateAuthorRequest updateAuthorRequest) {
         authorRepository.update(id, updateAuthorRequest);
     }
+
+    @Override
+    public boolean isUsed(int id) {
+        return authorRepository.isUsed(id);
+    }
 }
 

@@ -1,7 +1,9 @@
 package eu.branislavpalacka.library.controller;
 
+import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.services.api.BookService;
+import eu.branislavpalacka.library.services.api.BooksAuthorsService;
 import eu.branislavpalacka.library.services.api.request.UpdateBookRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +15,11 @@ import java.util.List;
 @RequestMapping("book")
 public class BookController {
     private final BookService bookService;
+    private final BooksAuthorsService booksAuthorsService;
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, BooksAuthorsService booksAuthorsService) {
         this.bookService = bookService;
+        this.booksAuthorsService = booksAuthorsService;
     }
 
     @GetMapping("{id}")
@@ -65,5 +69,11 @@ public class BookController {
                     .status(HttpStatus.PRECONDITION_FAILED)
                     .body("Book with id: "+id+" NOT FOUND.");
         }
+    }
+
+    @GetMapping("/authors/{id}")
+    public ResponseEntity getAuthorsOfBook(@PathVariable("id") int book_id){
+        List<Author> authors = booksAuthorsService.getAuthorsOfBook(book_id);
+            return new ResponseEntity<>(authors,HttpStatus.OK);
     }
 }
