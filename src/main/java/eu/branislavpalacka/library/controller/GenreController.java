@@ -1,6 +1,9 @@
 package eu.branislavpalacka.library.controller;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Genre;
+import eu.branislavpalacka.library.domain.StatusOfBooks;
+import eu.branislavpalacka.library.services.api.BooksGeneresService;
 import eu.branislavpalacka.library.services.api.GenreService;
 import eu.branislavpalacka.library.services.api.request.UpdateGenreRequest;
 import org.springframework.http.HttpStatus;
@@ -12,10 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("genre")
 public class GenreController {
-    private GenreService genreService;
+    private final GenreService genreService;
+    private final BooksGeneresService booksGeneresService;
 
-    public GenreController(GenreService genreService) {
+    public GenreController(GenreService genreService, BooksGeneresService booksGeneresService) {
         this.genreService = genreService;
+        this.booksGeneresService = booksGeneresService;
     }
 
     @GetMapping("{id}")
@@ -59,16 +64,31 @@ public class GenreController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delete (@PathVariable int id){
+    public ResponseEntity delete (@PathVariable int id) {
         if(genreService.get(id) != null){
-            genreService.delete(id);
-            return ResponseEntity
-                    .ok()
-                    .build();
+            Genre genre = genreService.get(id);
+
+            if (genreService.isUsed(id) == false) {
+                genreService.delete(id);
+                return ResponseEntity
+                        .ok()
+                        .build();
+            }else{
+                return ResponseEntity
+                        .status(HttpStatus.PRECONDITION_FAILED)
+                        .body("There are still books with genre "+genre.getName().toUpperCase()+".");
+            }
+
         }else{
             return ResponseEntity
                     .status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Genre with id: "+id+" NOT FOUND");
+                    .body("Status of Book with id= "+id+" NOT FOUND");
         }
+    }
+
+    @GetMapping("/books/{id}")
+    public ResponseEntity getBooksFromGenre(@PathVariable ("id") int genre_id){
+        List<Book> books = booksGeneresService.getBooksFromGenre(genre_id);
+        return new ResponseEntity<>(books,HttpStatus.OK);
     }
 }

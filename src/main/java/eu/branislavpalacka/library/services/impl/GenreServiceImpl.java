@@ -40,4 +40,9 @@ public class GenreServiceImpl implements GenreService {
     public void delete(int id) {
         genreRepository.delete(id);
     }
+
+    @Override
+    public boolean isUsed(int id) {
+        return genreRepository.isUsed(id);
+    }
 }

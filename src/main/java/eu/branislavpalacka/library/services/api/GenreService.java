@@ -19,5 +19,7 @@ public interface GenreService {
 
     void delete(int id);
 
+    boolean isUsed(int id);
+
 
 }

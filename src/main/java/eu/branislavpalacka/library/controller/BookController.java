@@ -2,8 +2,10 @@ package eu.branislavpalacka.library.controller;
 
 import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.Book;
+import eu.branislavpalacka.library.domain.Genre;
 import eu.branislavpalacka.library.services.api.BookService;
 import eu.branislavpalacka.library.services.api.BooksAuthorsService;
+import eu.branislavpalacka.library.services.api.BooksGeneresService;
 import eu.branislavpalacka.library.services.api.request.UpdateBookRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +18,12 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     private final BooksAuthorsService booksAuthorsService;
+    private final BooksGeneresService booksGeneresService;
 
-    public BookController(BookService bookService, BooksAuthorsService booksAuthorsService) {
+    public BookController(BookService bookService, BooksAuthorsService booksAuthorsService, BooksGeneresService booksGeneresService) {
         this.bookService = bookService;
         this.booksAuthorsService = booksAuthorsService;
+        this.booksGeneresService = booksGeneresService;
     }
 
     @GetMapping("{id}")
@@ -75,5 +79,11 @@ public class BookController {
     public ResponseEntity getAuthorsOfBook(@PathVariable("id") int book_id){
         List<Author> authors = booksAuthorsService.getAuthorsOfBook(book_id);
             return new ResponseEntity<>(authors,HttpStatus.OK);
+    }
+
+    @GetMapping("/genres/{id}")
+    public ResponseEntity getGenresForBook(@PathVariable("id") int book_id){
+        List<Genre> genres = booksGeneresService.getGenresForBook(book_id);
+        return new ResponseEntity<>(genres,HttpStatus.OK);
     }
 }

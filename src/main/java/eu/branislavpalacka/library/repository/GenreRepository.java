@@ -1,6 +1,9 @@
 package eu.branislavpalacka.library.repository;
 
+import eu.branislavpalacka.library.domain.BooksGenres;
 import eu.branislavpalacka.library.domain.Genre;
+import eu.branislavpalacka.library.domain.StatusOfBooks;
+import eu.branislavpalacka.library.mappper.BooksGenresRowMapper;
 import eu.branislavpalacka.library.mappper.GenreRowMapper;
 import eu.branislavpalacka.library.services.api.request.UpdateGenreRequest;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +23,7 @@ import java.util.List;
 public class GenreRepository {
     private final JdbcTemplate jdbcTemplate;
     private final GenreRowMapper genreRowMapper = new GenreRowMapper();
+    private final BooksGenresRowMapper booksGenresRowMapper = new BooksGenresRowMapper();
 
     public GenreRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -66,5 +70,13 @@ public class GenreRepository {
     public void delete (int id){
         final String sql = "DELETE FROM genres WHERE id="+id;
         jdbcTemplate.update(sql);
+    }
+
+    public boolean isUsed(int genre_id){
+        final String sql = "SELECT * FROM books_genres WHERE genre_id="+genre_id;
+        List<BooksGenres> booksGenresList = jdbcTemplate.query(sql,booksGenresRowMapper);
+        if (booksGenresList.size() == 0){
+            return false;
+        }else return true;
     }
 }
