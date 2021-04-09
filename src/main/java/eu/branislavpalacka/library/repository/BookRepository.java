@@ -76,5 +76,4 @@ public class BookRepository {
         jdbcTemplate.update(sql);
     }
 
-
 }
