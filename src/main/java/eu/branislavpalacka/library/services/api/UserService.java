@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library.services.api;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.User;
 import org.springframework.lang.Nullable;
 
@@ -13,4 +14,6 @@ public interface UserService {
 
     @Nullable
     Integer add(User user); // returns generated ID
+
+    List<Book> booksInBasket (int userId);
 }

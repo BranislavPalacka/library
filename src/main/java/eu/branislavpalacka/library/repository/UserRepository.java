@@ -1,6 +1,8 @@
 package eu.branislavpalacka.library.repository;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.User;
+import eu.branislavpalacka.library.mappper.BookRowMapper;
 import eu.branislavpalacka.library.mappper.UserRowMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +19,7 @@ import java.util.List;
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
     private final UserRowMapper userRowMapper = new UserRowMapper();
+    private final BookRowMapper bookRowMapper = new BookRowMapper();
 
     public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -67,4 +70,10 @@ public class UserRepository {
             return null;
         }
     }
+
+    public List<Book> booksInBasket (int userId){
+        final String sql = "SELECT library.books.* FROM users JOIN library.books ON users.basket_id = books.basket_id WHERE users.id="+userId;
+        return jdbcTemplate.query(sql,bookRowMapper);
+    }
+    // TODO dodělej smazání usera tak, aby kontroloval, jestli nemá aktuálně půjčené knihy -- library.orders
 }

@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library.services.impl;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.User;
 import eu.branislavpalacka.library.repository.UserRepository;
 import eu.branislavpalacka.library.services.api.UserService;
@@ -29,4 +30,12 @@ public class UserServiceImpl implements UserService {
     public Integer add(User user) {
         return userRepository.add(user);
     }
+
+    @Override
+    public List<Book> booksInBasket(int userId) {
+        if(userRepository.get(userId) != null){
+            return userRepository.booksInBasket(userId);
+        }else return null;
+    }
+
 }

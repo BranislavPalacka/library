@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library.controller;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.User;
 import eu.branislavpalacka.library.services.api.UserService;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,16 @@ public class UserController {
             return new ResponseEntity<>(id,HttpStatus.CREATED);
         }else {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/basket/{id}")
+    public ResponseEntity booksInBasket(@PathVariable ("id") int id){
+        List<Book> bookList = userService.booksInBasket(id);
+        if (bookList.get(0) != null){
+            return new ResponseEntity<>(bookList,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null,HttpStatus.PRECONDITION_FAILED);
         }
     }
 }
