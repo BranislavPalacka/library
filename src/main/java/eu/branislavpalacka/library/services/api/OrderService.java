@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library.services.api;
 
+import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.Order;
 import org.springframework.lang.Nullable;
 
@@ -13,4 +14,10 @@ public interface OrderService {
     Integer add(Order order);
 
     List<Order> getOrders();
+
+    void ready(int id);
+
+    void borrowed(Order order, Employee employee);
+
+    void ended(Order order, Employee employee);
 }

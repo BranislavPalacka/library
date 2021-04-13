@@ -16,13 +16,20 @@ public class UpdateBookRequest {
     private int statusID;
     @Nullable
     private int basketId;
+    @Nullable
+    private int orderID;
 
-    public UpdateBookRequest(@NonNull String name, @Nullable String description, @Nullable String image, int statusID, int basketId) {
+    public UpdateBookRequest(@NonNull String name, @Nullable String description, @Nullable String image, int statusID, int basketId, int orderID) {
         this.name = name;
         this.description = description;
         this.image = image;
         this.statusID = statusID;
         this.basketId = basketId;
+        this.orderID = orderID;
+    }
+
+    public int getOrderID() {
+        return orderID;
     }
 
     @NonNull
@@ -53,11 +60,11 @@ public class UpdateBookRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UpdateBookRequest that = (UpdateBookRequest) o;
-        return statusID == that.statusID && basketId == that.basketId && name.equals(that.name) && Objects.equals(description, that.description) && Objects.equals(image, that.image);
+        return statusID == that.statusID && basketId == that.basketId && orderID == that.orderID && name.equals(that.name) && Objects.equals(description, that.description) && Objects.equals(image, that.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, image, statusID, basketId);
+        return Objects.hash(name, description, image, statusID, basketId, orderID);
     }
 }

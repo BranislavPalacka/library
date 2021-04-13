@@ -73,7 +73,7 @@ public class DBServiceTest {
 
     @Test
     public void book() {
-        Book book = new Book("Nová kniha", "ještě jsem nečetl", "images/NK.gif", 1, 2, 13);
+        Book book = new Book("Nová kniha", "ještě jsem nečetl", "images/NK.gif", 1, 2, 13,1);
 
         Integer id = bookService.add(book);
         assert id != null;
