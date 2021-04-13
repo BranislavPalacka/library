@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library.repository;
 
+import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.Order;
 import eu.branislavpalacka.library.mappper.OrderRowMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -60,4 +61,37 @@ public class OrderRepository {
             return null;
         }
     }
+
+    // TODO zajisti aby bylo možné ready i rušit a přepisovat kvůli chybám na straně employee
+    public void ready(int id){
+        final String sql = "UPDATE orders SET ready_at=? WHERE id="+id;
+        Order order = get(id);
+
+        if (order.getReadyAt() == null){
+            order.setReadyAt(Timestamp.from(Instant.now()));
+        }
+
+        jdbcTemplate.update(sql, order.getReadyAt());
+
+    }
+
+    public void borrowed(Order order, Employee employee){
+        final String sql = "UPDATE orders SET borrowed_at=?,borrowed_by=? WHERE id="+order.getId();
+
+            if(order.getBorrowedAt() == null){
+                order.setBorrowedAt(Timestamp.from(Instant.now()));
+            }
+            jdbcTemplate.update(sql,order.getBorrowedAt(),employee.getId());
+    }
+
+    public void ended(Order order, Employee employee){
+        final String sql = "UPDATE orders SET ended_at=?,ended_by=? WHERE id="+order.getId();
+
+        if(order.getEndedAt() == null){
+            order.setEndedAt(Timestamp.from(Instant.now()));
+        }
+        jdbcTemplate.update(sql,order.getEndedAt(),employee.getId());
+    }
+
+
 }
