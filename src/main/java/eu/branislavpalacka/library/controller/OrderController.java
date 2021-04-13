@@ -1,6 +1,8 @@
 package eu.branislavpalacka.library.controller;
 
+import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.Order;
+import eu.branislavpalacka.library.services.api.EmployeeService;
 import eu.branislavpalacka.library.services.api.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +14,11 @@ import java.util.List;
 @RequestMapping("order")
 public class OrderController {
     private final OrderService orderService;
+    private final EmployeeService employeeService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, EmployeeService employeeService) {
         this.orderService = orderService;
+        this.employeeService = employeeService;
     }
 
     @GetMapping("{id}")
@@ -42,4 +46,35 @@ public class OrderController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("{id}r")
+    public ResponseEntity ready(@PathVariable ("id") Integer id){
+        if (orderService.get(id) != null){
+            orderService.ready(id);
+            return new ResponseEntity<>(id,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null,HttpStatus.PRECONDITION_FAILED);
+        }
+    }
+
+    @PatchMapping("{id}b")
+    public ResponseEntity borrowed(@PathVariable ("id") Integer order_id, @RequestBody Employee employee){
+        if(orderService.get(order_id) != null){
+            orderService.borrowed(orderService.get(order_id), employee);
+            return new ResponseEntity<>(order_id,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null,HttpStatus.PRECONDITION_FAILED);
+        }
+    }
+
+    @PatchMapping("{id}e")
+    public ResponseEntity ended(@PathVariable ("id") Integer order_id, @RequestBody Employee employee){
+        if(orderService.get(order_id) != null){
+            orderService.ended(orderService.get(order_id), employee);
+            return new ResponseEntity<>(order_id,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null,HttpStatus.PRECONDITION_FAILED);
+        }
+    }
+
 }

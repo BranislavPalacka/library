@@ -18,6 +18,7 @@ public class BookRowMapper implements RowMapper<Book> {
         book.setAddBy(resultSet.getInt("add_by"));
         book.setCreatedAt(resultSet.getTimestamp("created_at"));
         book.setBasketID(resultSet.getInt("basket_id"));
+        book.setOrderID(resultSet.getInt("order_id"));
 
         return book;
     }
