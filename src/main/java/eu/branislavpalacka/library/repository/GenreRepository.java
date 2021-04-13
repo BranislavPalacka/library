@@ -2,7 +2,6 @@ package eu.branislavpalacka.library.repository;
 
 import eu.branislavpalacka.library.domain.BooksGenres;
 import eu.branislavpalacka.library.domain.Genre;
-import eu.branislavpalacka.library.domain.StatusOfBooks;
 import eu.branislavpalacka.library.mappper.BooksGenresRowMapper;
 import eu.branislavpalacka.library.mappper.GenreRowMapper;
 import eu.branislavpalacka.library.services.api.request.UpdateGenreRequest;

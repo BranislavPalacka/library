@@ -2,7 +2,6 @@ package eu.branislavpalacka.library.services.api;
 
 import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.Book;
-import eu.branislavpalacka.library.domain.BooksAuthors;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 

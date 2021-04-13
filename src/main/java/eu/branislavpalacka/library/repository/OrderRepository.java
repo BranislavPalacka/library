@@ -1,7 +1,9 @@
 package eu.branislavpalacka.library.repository;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.Order;
+import eu.branislavpalacka.library.mappper.BookRowMapper;
 import eu.branislavpalacka.library.mappper.OrderRowMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +21,7 @@ public class OrderRepository {
     private final JdbcTemplate jdbcTemplate;
 
     private final OrderRowMapper orderRowMapper = new OrderRowMapper();
+    private final BookRowMapper bookRowMapper = new BookRowMapper();
 
     public OrderRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -93,5 +96,9 @@ public class OrderRepository {
         jdbcTemplate.update(sql,order.getEndedAt(),employee.getId());
     }
 
+    public List<Book> booksInOrder(int order_id){
+        final String sql= "SELECT books.* FROM orders JOIN books ON orders.id = books.order_id WHERE orders.id = "+order_id;
+        return jdbcTemplate.query(sql,bookRowMapper);
+    }
 
 }

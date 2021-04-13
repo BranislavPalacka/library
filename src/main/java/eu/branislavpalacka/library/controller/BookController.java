@@ -3,9 +3,7 @@ package eu.branislavpalacka.library.controller;
 import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Genre;
-import eu.branislavpalacka.library.services.api.BookService;
-import eu.branislavpalacka.library.services.api.BooksAuthorsService;
-import eu.branislavpalacka.library.services.api.BooksGeneresService;
+import eu.branislavpalacka.library.services.api.*;
 import eu.branislavpalacka.library.services.api.request.UpdateBookRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +17,16 @@ public class BookController {
     private final BookService bookService;
     private final BooksAuthorsService booksAuthorsService;
     private final BooksGeneresService booksGeneresService;
+    private final OrderService orderService;
+    private final BasketService basketService;
 
-    public BookController(BookService bookService, BooksAuthorsService booksAuthorsService, BooksGeneresService booksGeneresService) {
+    public BookController(BookService bookService, BooksAuthorsService booksAuthorsService, BooksGeneresService booksGeneresService,
+                          OrderService orderService, BasketService basketService) {
         this.bookService = bookService;
         this.booksAuthorsService = booksAuthorsService;
         this.booksGeneresService = booksGeneresService;
+        this.orderService = orderService;
+        this.basketService = basketService;
     }
 
     @GetMapping("{id}")
@@ -86,4 +89,42 @@ public class BookController {
         List<Genre> genres = booksGeneresService.getGenresForBook(book_id);
         return new ResponseEntity<>(genres,HttpStatus.OK);
     }
+
+    @PatchMapping("/order/{orderID}O_{bookID}B")
+    public ResponseEntity addBookToOrder(@PathVariable ("bookID") int book_id,@PathVariable ("orderID") int order_id){
+        if(orderService.get(order_id) == null){
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Order with id: "+order_id+" NOT FOUND");
+        }else if(bookService.get(book_id) == null) {
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Book with id: "+book_id+" NOT FOUND.");
+        }else{
+            bookService.addBookToOrder(book_id, order_id);
+            return ResponseEntity
+                    .ok()
+                    .build();
+        }
+    }
+
+    @PatchMapping("/basket/{basketID}B_{bookID}B")
+    public ResponseEntity addBookToBasket(@PathVariable ("bookID") int book_id,@PathVariable ("basketID") int basket_id){
+        if(basketService.get(basket_id) == null){
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Basket with id: "+basket_id+" NOT FOUND");
+        }else if(bookService.get(book_id) == null) {
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Book with id: "+book_id+" NOT FOUND.");
+        }else{
+            bookService.addBookToBasket(book_id, basket_id);
+            return ResponseEntity
+                    .ok()
+                    .build();
+        }
+    }
+
+
 }

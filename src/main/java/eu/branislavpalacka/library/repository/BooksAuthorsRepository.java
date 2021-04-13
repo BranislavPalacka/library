@@ -2,14 +2,12 @@ package eu.branislavpalacka.library.repository;
 
 import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.Book;
-import eu.branislavpalacka.library.domain.BooksAuthors;
 import eu.branislavpalacka.library.mappper.AuthorRowMapper;
 import eu.branislavpalacka.library.mappper.BookRowMapper;
 import eu.branislavpalacka.library.mappper.BooksAuthorsRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component

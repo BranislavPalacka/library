@@ -76,4 +76,14 @@ public class UserRepository {
         return jdbcTemplate.query(sql,bookRowMapper);
     }
     // TODO dodělej smazání usera tak, aby kontroloval, jestli nemá aktuálně půjčené knihy -- library.orders
+
+    public Integer numberOfBorrowedBooks(int userId){
+        final String sql = "SELECT borrowed_books_number FROM users WHERE id="+userId;
+        return jdbcTemplate.queryForObject(sql,Integer.class);
+    }
+
+    public List<Book> borrowedBooks (int user_id){
+        final String sql="SELECT books.* FROM orders JOIN books ON orders.id = books.order_id WHERE user_id ="+user_id;
+        return jdbcTemplate.query(sql,bookRowMapper);
+    }
 }

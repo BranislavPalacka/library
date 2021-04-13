@@ -39,4 +39,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void activate(int id) {
         employeeRepository.activate(id);
     }
+
+    @Override
+    public boolean isActive(int id) {
+        return employeeRepository.isActive(id);
+    }
 }

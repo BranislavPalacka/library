@@ -67,4 +67,12 @@ public class EmployeeRepository {
         final String sql = "UPDATE employees SET active=1 WHERE id="+id;
         jdbcTemplate.update(sql);
     }
+
+    public boolean isActive(int id){
+        final String sql = "SELECT * FROM employees WHERE id="+id;
+        if (jdbcTemplate.queryForObject(sql,employeeRowMapper).getActive()==1){
+            return true;
+        }else return false;
+
+    }
 }

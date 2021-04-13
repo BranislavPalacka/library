@@ -1,8 +1,8 @@
 package eu.branislavpalacka.library.repository;
 
-import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.mappper.BookRowMapper;
 import eu.branislavpalacka.library.services.api.request.UpdateBookRequest;
+import eu.branislavpalacka.library.domain.Book;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -77,4 +77,13 @@ public class BookRepository {
         jdbcTemplate.update(sql);
     }
 
+    public void addBookToOrder(int book_id,int order_id){
+        final String sql = "UPDATE books SET order_id=?, status_id=6 WHERE id="+book_id;
+        jdbcTemplate.update(sql,order_id);
+    }
+
+    public void addBookToBasket(int book_id,int basket_id){
+        final String sql = "UPDATE books SET basket_id=?, status_id=7 WHERE id="+book_id;
+        jdbcTemplate.update(sql,basket_id);
+    }
 }

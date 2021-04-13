@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library.controller;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.Order;
 import eu.branislavpalacka.library.services.api.EmployeeService;
@@ -77,4 +78,13 @@ public class OrderController {
         }
     }
 
+    @GetMapping("books/{id}")
+    public ResponseEntity booksInOrder(@PathVariable ("id") int order_id){
+        if(orderService.get(order_id) != null){
+            List<Book> bookList = orderService.booksInOrder(order_id);
+            return new ResponseEntity<>(bookList,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null,HttpStatus.PRECONDITION_FAILED);
+        }
+    }
 }

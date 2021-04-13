@@ -2,7 +2,6 @@ package eu.branislavpalacka.library.services.api;
 
 import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Genre;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.List;

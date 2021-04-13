@@ -18,4 +18,8 @@ public interface BookService {
     void update (int id, UpdateBookRequest updateBookRequest);
 
     void delete(int id);
+
+    void addBookToOrder(int book_id,int order_id);
+
+    void addBookToBasket(int book_id,int basket_id);
 }

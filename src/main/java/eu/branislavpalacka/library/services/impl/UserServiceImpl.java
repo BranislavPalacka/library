@@ -38,4 +38,14 @@ public class UserServiceImpl implements UserService {
         }else return null;
     }
 
+    @Override
+    public Integer numberOfBorrowedBooks(int userId) {
+        return userRepository.numberOfBorrowedBooks(userId);
+    }
+
+    @Override
+    public List<Book> borrowedBooks(int user_id) {
+        return userRepository.borrowedBooks(user_id);
+    }
+
 }

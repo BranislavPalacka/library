@@ -16,4 +16,8 @@ public interface UserService {
     Integer add(User user); // returns generated ID
 
     List<Book> booksInBasket (int userId);
+
+    Integer numberOfBorrowedBooks(int userId);
+
+    List<Book> borrowedBooks (int user_id);
 }

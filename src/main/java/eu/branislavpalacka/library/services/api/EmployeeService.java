@@ -17,4 +17,6 @@ public interface EmployeeService {
     void deactivate(int id);
 
     void activate(int id);
+
+    boolean isActive(int id);
 }

@@ -45,11 +45,33 @@ public class UserController {
 
     @GetMapping("/basket/{id}")
     public ResponseEntity booksInBasket(@PathVariable ("id") int id){
-        List<Book> bookList = userService.booksInBasket(id);
-        if (bookList.get(0) != null){
-            return new ResponseEntity<>(bookList,HttpStatus.OK);
+        if(userService.get(id) != null) {
+            List<Book> bookList = userService.booksInBasket(id);
+            if (bookList.get(0) != null) {
+                return new ResponseEntity<>(bookList, HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(null, HttpStatus.PRECONDITION_FAILED);
+            }
         }else{
-            return new ResponseEntity<>(null,HttpStatus.PRECONDITION_FAILED);
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("User with id: "+id+" NOT FOUND");
+        }
+    }
+
+    @GetMapping("/books/{id}")
+    public ResponseEntity borrowedBooks(@PathVariable ("id") int id){
+        if(userService.get(id) != null) {
+            List<Book> bookList = userService.borrowedBooks(id);
+            if (bookList.get(0) != null) {
+                return new ResponseEntity<>(bookList, HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(null, HttpStatus.PRECONDITION_FAILED);
+            }
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("User with id: "+id+" NOT FOUND");
         }
     }
 }

@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library.services.impl;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.Order;
 import eu.branislavpalacka.library.repository.OrderRepository;
@@ -45,5 +46,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void ended(Order order, Employee employee) {
         orderRepository.ended(order, employee);
+    }
+
+    @Override
+    public List<Book> booksInOrder(int order_id) {
+        return orderRepository.booksInOrder(order_id);
     }
 }

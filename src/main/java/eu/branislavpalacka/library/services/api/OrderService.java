@@ -1,5 +1,6 @@
 package eu.branislavpalacka.library.services.api;
 
+import eu.branislavpalacka.library.domain.Book;
 import eu.branislavpalacka.library.domain.Employee;
 import eu.branislavpalacka.library.domain.Order;
 import org.springframework.lang.Nullable;
@@ -20,4 +21,6 @@ public interface OrderService {
     void borrowed(Order order, Employee employee);
 
     void ended(Order order, Employee employee);
+
+    List<Book> booksInOrder(int order_id);
 }

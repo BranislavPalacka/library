@@ -2,7 +2,6 @@ package eu.branislavpalacka.library.services.impl;
 
 import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.repository.AuthorRepository;
-import eu.branislavpalacka.library.repository.BookRepository;
 import eu.branislavpalacka.library.services.api.AuthorService;
 import eu.branislavpalacka.library.services.api.request.UpdateAuthorRequest;
 import org.springframework.stereotype.Service;

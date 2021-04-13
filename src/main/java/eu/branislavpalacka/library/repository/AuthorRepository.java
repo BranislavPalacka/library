@@ -2,7 +2,6 @@ package eu.branislavpalacka.library.repository;
 
 import eu.branislavpalacka.library.domain.Author;
 import eu.branislavpalacka.library.domain.BooksAuthors;
-import eu.branislavpalacka.library.domain.StatusOfBooks;
 import eu.branislavpalacka.library.mappper.AuthorRowMapper;
 import eu.branislavpalacka.library.mappper.BooksAuthorsRowMapper;
 import eu.branislavpalacka.library.services.api.request.UpdateAuthorRequest;
