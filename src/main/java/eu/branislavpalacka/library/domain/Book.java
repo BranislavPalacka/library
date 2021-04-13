@@ -24,11 +24,13 @@ public class Book {
     private Timestamp createdAt;
     @Nullable
     private int basketID;
+    @Nullable
+    private int orderID;
 
     public Book() {
     }
 
-    public Book(@NonNull String name, @Nullable String description, @Nullable String image, int statusID, int addBy, int basketID) {
+    public Book(@NonNull String name, @Nullable String description, @Nullable String image, int statusID, int addBy, int basketID, int orderID) {
         this.name = name;
         this.description = description;
         this.image = image;
@@ -36,6 +38,15 @@ public class Book {
         this.addBy = addBy;
         this.createdAt = Timestamp.from(Instant.now());
         this.basketID = basketID;
+        this.orderID = orderID;
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 
     @NonNull
@@ -112,27 +123,13 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return statusID == book.statusID && addBy == book.addBy && basketID == book.basketID && id.equals(book.id)
-                && name.equals(book.name) && Objects.equals(description, book.description) && Objects.equals(image, book.image)
-                && createdAt.getTime()==book.getCreatedAt().getTime();
+        return statusID == book.statusID && addBy == book.addBy && basketID == book.basketID && orderID == book.orderID
+                && id.equals(book.id) && name.equals(book.name) && Objects.equals(description, book.description)
+                && Objects.equals(image, book.image) && createdAt.getTime()==book.getCreatedAt().getTime();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, image, statusID, addBy, createdAt, basketID);
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", image='" + image + '\'' +
-                ", statusID=" + statusID +
-                ", addBy=" + addBy +
-                ", createdAt=" + createdAt +
-                ", basketID=" + basketID +
-                '}';
+        return Objects.hash(id, name, description, image, statusID, addBy, createdAt, basketID, orderID);
     }
 }

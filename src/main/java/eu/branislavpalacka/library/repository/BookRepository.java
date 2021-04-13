@@ -67,8 +67,9 @@ public class BookRepository {
     }
 
     public void update(int id, UpdateBookRequest updateBookRequest){
-        final String sql = "UPDATE books SET name=?,description=?,image=?,status_id=?,basket_id=? WHERE id="+id;
-        jdbcTemplate.update(sql,updateBookRequest.getName(),updateBookRequest.getDescription(),updateBookRequest.getImage(),updateBookRequest.getStatusID(),updateBookRequest.getBasketId());
+        final String sql = "UPDATE books SET name=?,description=?,image=?,status_id=?,basket_id=?,order_id=? WHERE id="+id;
+        jdbcTemplate.update(sql,updateBookRequest.getName(),updateBookRequest.getDescription(),updateBookRequest.getImage(),
+                updateBookRequest.getStatusID(),updateBookRequest.getBasketId(),updateBookRequest.getOrderID());
     }
 
     public void delete(int id){

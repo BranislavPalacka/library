@@ -102,7 +102,7 @@ public class RestControllerTest {
 
     @Test
     public void book() throws Exception{
-        Book book = new Book("Nova kniha", "jeste jsem ji necetl", "images/NK.gif", 1, 2, 13);
+        Book book = new Book("Nova kniha", "jeste jsem ji necetl", "images/NK.gif", 1, 2, 13,1);
 
         // add book
         String id = mockMvc.perform(post("/book")
