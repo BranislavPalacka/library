@@ -41,4 +41,34 @@ public class EmployeeController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PatchMapping("{id}d")
+    public ResponseEntity deactivate(@PathVariable ("id") int id){
+        if(employeeService.get(id) != null){
+            employeeService.deactivate(id);
+            return ResponseEntity
+                    .ok()
+                    .build();
+
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Employee with id: "+id+" NOT FOUND.");
+        }
+    }
+
+    @PatchMapping("{id}a")
+    public ResponseEntity activate(@PathVariable ("id") int id){
+        if(employeeService.get(id) != null){
+            employeeService.activate(id);
+            return ResponseEntity
+                    .ok()
+                    .build();
+
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Employee with id: "+id+" NOT FOUND.");
+        }
+    }
 }

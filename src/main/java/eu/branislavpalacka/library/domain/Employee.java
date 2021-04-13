@@ -1,6 +1,7 @@
 package eu.branislavpalacka.library.domain;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.Objects;
 
@@ -19,18 +20,30 @@ public class Employee {
     private String phoneNumber;
     @NonNull
     private String password;
+    @Nullable
+    private Integer active;
 
     public Employee() {
     }
 
-    public Employee(@NonNull String name, @NonNull String surname, @NonNull String address, @NonNull String email,
-                    @NonNull String phoneNumber, @NonNull String password) {
+    public Employee(@NonNull String name, @NonNull String surname, @NonNull String address,
+                    @NonNull String email, @NonNull String phoneNumber, @NonNull String password, @Nullable Integer active) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
+        this.active = active;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
     }
 
     @NonNull
@@ -101,24 +114,15 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return id.equals(employee.id) && name.equals(employee.name) && surname.equals(employee.surname) && address.equals(employee.address) && email.equals(employee.email) && phoneNumber.equals(employee.phoneNumber) && password.equals(employee.password);
+        return id.equals(employee.id) && name.equals(employee.name) && surname.equals(employee.surname)
+                && address.equals(employee.address) && email.equals(employee.email) && phoneNumber.equals(employee.phoneNumber)
+                && password.equals(employee.password) && active.equals(employee.active);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, address, email, phoneNumber, password);
+        return Objects.hash(id, name, surname, address, email, phoneNumber, password,active);
     }
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+
 }

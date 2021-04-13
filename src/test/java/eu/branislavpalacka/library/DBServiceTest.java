@@ -37,7 +37,7 @@ public class DBServiceTest {
 
     @Test
     public void user(){
-        Employee employee = new Employee("Peeetr","Jablko", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14");
+        Employee employee = new Employee("Peeetr","Jablko", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14",1);
         Integer idE = employeeService.add(employee);
 
         User user = new User("Fero","Mrkvicka", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14",0,0,idE);
@@ -57,7 +57,7 @@ public class DBServiceTest {
 
     @Test
     public void employee(){
-        Employee employee = new Employee("Peeetr","Jablko", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14");
+        Employee employee = new Employee("Peeetr","Jablko", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14",1);
         Integer id = employeeService.add(employee);
 
         assert id != null;

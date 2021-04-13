@@ -69,7 +69,7 @@ public class RestControllerTest {
 
     @Test
     public void employee() throws Exception{
-        Employee employee = new Employee("Peetr","Jablko", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14");
+        Employee employee = new Employee("Peetr","Jablko", "za sedmero rekami", "email@email.com", "700 60 61 62","uplneNevim14",1);
 
         // add employee
         String id = mockMvc.perform(post("/employee")

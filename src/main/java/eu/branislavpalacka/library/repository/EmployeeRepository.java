@@ -57,4 +57,14 @@ public class EmployeeRepository {
             return null;
         }
     }
+
+    public void deactivate(int id){
+        final String sql = "UPDATE employees SET active=0 WHERE id="+id;
+        jdbcTemplate.update(sql);
+    }
+
+    public void activate(int id){
+        final String sql = "UPDATE employees SET active=1 WHERE id="+id;
+        jdbcTemplate.update(sql);
+    }
 }

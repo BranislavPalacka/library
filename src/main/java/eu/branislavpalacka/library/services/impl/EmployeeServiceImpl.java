@@ -29,4 +29,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Integer add(Employee employee) {
         return employeeRepository.add(employee);
     }
+
+    @Override
+    public void deactivate(int id) {
+        employeeRepository.deactivate(id);
+    }
+
+    @Override
+    public void activate(int id) {
+        employeeRepository.activate(id);
+    }
 }

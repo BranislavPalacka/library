@@ -13,4 +13,8 @@ public interface EmployeeService {
 
     @Nullable
     Integer add(Employee employee); // returns generated ID
+
+    void deactivate(int id);
+
+    void activate(int id);
 }
