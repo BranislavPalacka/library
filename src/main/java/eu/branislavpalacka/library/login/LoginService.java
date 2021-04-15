@@ -11,7 +11,7 @@ public interface LoginService {
 
     User findUserByEmail(Login login);
 
-    Employee findEmployeeByEmail(String email);
+    Employee findEmployeeByEmail(Login login);
 
 
 }

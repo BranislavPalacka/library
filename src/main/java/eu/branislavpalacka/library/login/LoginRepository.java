@@ -28,7 +28,7 @@ public class LoginRepository {
     }
 
     public Employee findEmployeeByEmail(String email){
-        final String sql = "SELECT * FROM employee WHERE email='"+email+"'";
+        final String sql = "SELECT * FROM employees WHERE email='"+email+"'";
         try{
             return jdbcTemplate.queryForObject(sql,employeeRowMapper);
         } catch (EmptyResultDataAccessException e){

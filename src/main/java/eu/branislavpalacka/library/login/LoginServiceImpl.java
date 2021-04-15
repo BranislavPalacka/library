@@ -10,11 +10,10 @@ import java.util.regex.Pattern;
 
 @Service
 public class LoginServiceImpl implements LoginService{
-    private final UserService userService;
+
     private final LoginRepository loginRepository;
 
-    public LoginServiceImpl(UserService userService, LoginRepository loginRepository) {
-        this.userService = userService;
+    public LoginServiceImpl(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
     }
 
@@ -23,7 +22,7 @@ public class LoginServiceImpl implements LoginService{
         String email = login.getEmail();
         String password = login.getPassword();
 
-        String regex = "[^\\/*\\+!?;]";
+        String regex = "[^\\/*+!?;]";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcherEmail = pattern.matcher(email);
         Matcher matcherPassword = pattern.matcher(password);
@@ -42,25 +41,24 @@ public class LoginServiceImpl implements LoginService{
             return "There are forbidden characters in email.";
         } else if (passwordMatcherLength != password.length()) {
             return "There are forbidden characters in password.";
-        } else return null;
+        } else return "no forbidden characters";
     }
 
     @Override
     public String controlEmail(String email) {
-        String regex = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
+        String regex = "([a-zA-Z0-9_.+-]+)(@)([a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]{2,4})";
         Pattern pattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
 
-        String result = null;
+        String result = "there is a problem with email";
 
-        if (matcher.equals(null)){
-           result = "Email contains wrong parameters.";
-        }else {
-            while (matcher.find()){
-                result = matcher.group();
-            }
-        }
-        return result;
+        while(matcher.find()) {
+            if (matcher.group(1).length() > 2) {
+                if (matcher.group(3).length() > 5) {
+                    result = "email parameters are ok";
+                } else result = "There is a problem with email part after @";
+            }else result ="There is a problem with email part before @";
+        }return result;
     }
 
 
@@ -71,7 +69,7 @@ public class LoginServiceImpl implements LoginService{
                if(user.getPassword().equals(login.getPassword())){
                     return user;
                }else {
-                   System.out.println("wrong password");
+//                   System.out.println("wrong password");
                    return null;
                }
         }else {
@@ -81,8 +79,19 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public Employee findEmployeeByEmail(String email) {
-        return loginRepository.findEmployeeByEmail(email);
+    public Employee findEmployeeByEmail(Login login) {
+        Employee employee = loginRepository.findEmployeeByEmail(login.getEmail());
+        if(employee != null){
+            if(employee.getPassword().equals(login.getPassword())){
+                return employee;
+            }else {
+//                   System.out.println("wrong password");
+                return null;
+            }
+        }else {
+            System.out.println("Employees email not found.");
+            return null;
+        }
     }
 
 

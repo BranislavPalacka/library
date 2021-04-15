@@ -19,12 +19,24 @@ public class LoginController {
     @PostMapping
     public String postBody(@RequestBody Login login){
         String result = loginService.controlForbiddenChar(login);
-        if (result == null) {
-            User user = loginService.findUserByEmail(login);
-            if (user != null) {
-                return user.getName()+" "+user.getSurname();
-            }else return result;
+
+        if (result.equals("no forbidden characters")) {
+
+            if (loginService.controlEmail(login.getEmail()).equals("email parameters are ok")) {
+
+                User user = loginService.findUserByEmail(login);
+                Employee employee = loginService.findEmployeeByEmail(login);
+
+                if (user != null) {
+                    return user.getName() + " " + user.getSurname();
+                }else if (employee != null) {
+                    return employee.getName() + " " + employee.getSurname();
+                }else return "wrong password";
+// TODO change wrong password to more variants
+            } else return loginService.controlEmail(login.getEmail());
+
         }return result;
+
     }
 
 }
